@@ -24,10 +24,10 @@ class CrifraRC4 {
             S[i] = i;
             K[i] = chave.charAt(i % len);
         }
-        generateKSA();
+        gerarKSA();
     }
 
-    private static void generateKSA() {
+    private static void gerarKSA() {
         int j = 0;
         for (int i = 0; i <= 255; i++) {
             j = (j + S[i] + K[i]) % 256;
@@ -37,7 +37,7 @@ class CrifraRC4 {
         }
     }
 
-    private static byte[] transform(byte[] bytes) {
+    private static byte[] processar(byte[] bytes) {
         int i = 0;
         int j = 0;
         int[] S_ = S.clone();
@@ -58,14 +58,14 @@ class CrifraRC4 {
     }
 
     public static String Encriptar(String texto) {
-        byte[] input = texto.getBytes(StandardCharsets.UTF_8);
-        byte[] output = transform(input);
-        return Base64.getEncoder().encodeToString(output);
+        byte[] entarada = texto.getBytes(StandardCharsets.UTF_8);
+        byte[] saida = processar(entarada);
+        return Base64.getEncoder().encodeToString(saida);
     }
 
     public static String Dencriptar(String textoEncriptado) {
-        byte[] input = Base64.getDecoder().decode(textoEncriptado);
-        byte[] output = transform(input);
-        return new String(output, StandardCharsets.UTF_8);
+        byte[] entrada = Base64.getDecoder().decode(textoEncriptado);
+        byte[] saida = processar(entrada);
+        return new String(saida, StandardCharsets.UTF_8);
     }
 }
